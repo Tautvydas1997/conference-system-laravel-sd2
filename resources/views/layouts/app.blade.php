@@ -18,14 +18,26 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <span class="navbar-text me-3">
-                            {{ __('navbar.user_name') }}: <strong>Admin Administratorius</strong>
-                        </span>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn btn-outline-light" disabled>{{ __('navbar.logout') }}</button>
-                    </li>
+                    @auth
+                        <li class="nav-item">
+                            <span class="navbar-text me-3">
+                                {{ __('navbar.user_name') }}: <strong>{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</strong>
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-light">{{ __('navbar.logout') }}</button>
+                            </form>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a href="{{ route('login') }}" class="btn btn-outline-light me-2">{{ __('auth.login') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('register') }}" class="btn btn-outline-light">{{ __('auth.register') }}</a>
+                        </li>
+                    @endauth
                 </ul>
             </div>
         </div>

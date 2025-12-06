@@ -34,15 +34,7 @@ class EmployeeController extends Controller
             return redirect()->route('employee.index')->with('error', 'Konferencija nerasta');
         }
 
-        $registeredUserIds = $this->conferenceService->getRegisteredUsers($id);
-        $registeredUsers = collect();
-        
-        foreach ($registeredUserIds as $userId) {
-            $user = $this->userService->find($userId);
-            if ($user) {
-                $registeredUsers->push($user);
-            }
-        }
+        $registeredUsers = $this->conferenceService->getRegisteredUsers($id);
         
         return view('employee.show', [
             'conference' => $conference,

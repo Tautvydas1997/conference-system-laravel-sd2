@@ -34,8 +34,7 @@ class ClientController extends Controller
             return redirect()->route('client.index')->with('error', 'Konferencija nerasta');
         }
 
-        // For client view, we'll use a hardcoded user ID (1) - in real app this would come from auth
-        $userId = 1;
+        $userId = auth()->id();
         $isRegistered = $this->conferenceService->isUserRegistered($id, $userId);
         
         return view('client.show', [
@@ -52,12 +51,11 @@ class ClientController extends Controller
             return redirect()->route('client.index')->with('error', 'Konferencija nerasta');
         }
 
-        if ($conference['status'] !== 'planned') {
+        if ($conference->status !== 'planned') {
             return redirect()->route('client.show', $id)->with('error', 'Negalima registruotis į jau įvykusią konferenciją');
         }
 
-        // For client view, we'll use a hardcoded user ID (1) - in real app this would come from auth
-        $userId = 1;
+        $userId = auth()->id();
         
         if ($this->conferenceService->isUserRegistered($id, $userId)) {
             return redirect()->route('client.show', $id)->with('error', 'Jūs jau užsiregistravote');

@@ -10,25 +10,34 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ConferenceController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Client subsystem
-Route::prefix('client')->name('client.')->group(function () {
+// Authentication routes
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// Client subsystem (requires authentication)
+Route::prefix('client')->name('client.')->middleware('auth')->group(function () {
     Route::get('/conferences', [ClientController::class, 'index'])->name('index');
     Route::get('/conferences/{id}', [ClientController::class, 'show'])->name('show');
     Route::post('/conferences/{id}/register', [ClientController::class, 'register'])->name('register');
 });
 
-// Employee subsystem
-Route::prefix('employee')->name('employee.')->group(function () {
+// Employee subsystem (requires employee role)
+Route::prefix('employee')->name('employee.')->middleware(['auth', 'role:employee'])->group(function () {
     Route::get('/conferences', [EmployeeController::class, 'index'])->name('index');
     Route::get('/conferences/{id}', [EmployeeController::class, 'show'])->name('show');
 });
 
-// Admin subsystem
-Route::prefix('admin')->name('admin.')->group(function () {
+// Admin subsystem (requires admin role)
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
     
     // User management

@@ -78,7 +78,7 @@ class ConferenceController extends Controller
             return redirect()->route('admin.conferences.index')->with('error', 'Konferencija nerasta');
         }
 
-        if ($conference['status'] === 'completed') {
+        if ($conference->status === 'completed') {
             return redirect()->route('admin.conferences.index')->with('error', __('conferences.cannot_delete_completed'));
         }
         
