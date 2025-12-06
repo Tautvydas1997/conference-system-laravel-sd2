@@ -1,59 +1,250 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Konferencijų registracijos sistema (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Internetinė sistema skirta registracijai į konferencijas ir konferencijų duomenų valdymui. Projektas sukurtas naudojant Laravel framework.
 
-## About Laravel
+**Studentas:** Tautvydas Kasperavičius  
+**Grupė:** PIT-22-I-NT  
+**Savarankiškas darbas 2 (SD2)**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Turinys
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [Reikalavimai](#reikalavimai)
+- [Instaliacija](#instaliacija)
+- [Prisijungimo duomenys](#prisijungimo-duomenys)
+- [Funkcionalumas pagal vaidmenis](#funkcionalumas-pagal-vaidmenis)
+- [Projekto struktūra](#projekto-struktūra)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🔧 Reikalavimai
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.2 arba naujesnė versija
+- Composer
+- NPM (Node.js)
+- SQLite (įtrauktas į projektą)
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Instaliacija
 
-### Premium Partners
+### 1. Įdiekite dependencies
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+composer install
+npm install
+```
 
-## Contributing
+### 2. Sukonfigūruokite aplinkos failą
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## Code of Conduct
+### 3. Sukurkite duomenų bazę ir paleiskite migracijas
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan migrate --seed
+```
 
-## Security Vulnerabilities
+Šis komandas:
+- Sukuria SQLite duomenų bazės failą (`database/database.sqlite`)
+- Sukuria visas reikalingas lenteles (users, roles, conferences, users_roles, users_conferences)
+- Užpildo duomenų bazę pradiniais duomenimis (vaidmenys, naudotojai, konferencijos)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 4. Kompiliuokite frontend assets
 
-## License
+**Development mode:**
+```bash
+npm run dev
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Production mode:**
+```bash
+npm run build
+```
+
+### 5. Paleiskite Laravel serverį
+
+```bash
+php artisan serve
+```
+
+Serveris bus pasiekiamas adresu: **http://localhost:8000**
+
+### 6. Atidarykite naršyklėje
+
+```
+http://localhost:8000
+```
+
+---
+
+## 👤 Prisijungimo duomenys
+
+Po migracijų su seederiais (`php artisan migrate --seed`), galite prisijungti su šiais naudotojais:
+
+### 🔴 Administratorius
+
+- **Email:** `admin@example.com`
+- **Slaptažodis:** `password`
+- **Vardas:** Admin Administratorius
+
+### 🔵 Darbuotojas
+
+- **Email:** `marija@example.com`
+- **Slaptažodis:** `password`
+- **Vardas:** Marija Marijaitė
+
+### 🟢 Klientas (2 paskyros)
+
+- **Email:** `jonas@example.com`
+- **Slaptažodis:** `password`
+- **Vardas:** Jonas Jonaitis
+
+- **Email:** `petras@example.com`
+- **Slaptažodis:** `password`
+- **Vardas:** Petras Petraitis
+
+---
+
+## 🎯 Funkcionalumas pagal vaidmenis
+
+### Klientas
+
+- ✅ Matyti visų **planuojamų** konferencijų sąrašą
+- ✅ Užsiregistruoti į konferenciją
+- ✅ Peržiūrėti konferencijos informaciją
+
+### Darbuotojas
+
+- ✅ Matyti visų konferencijų sąrašą (planuojamas + įvykusios)
+- ✅ Peržiūrėti konferencijos informaciją
+- ✅ Matyti užsiregistravusių į konferenciją klientų sąrašą
+- ❌ Negali atlikti jokių veiksmų su įrašais (redaguoti, šalinti, kurti)
+
+### Administratorius
+
+- ✅ Pilnas CRUD funkcionalumas konferencijoms:
+  - Kurti naują konferenciją
+  - Redaguoti konferenciją
+  - Šalinti konferenciją (tik planuojamas, negalima šalinti įvykusių)
+  - Peržiūrėti konferencijų sąrašą
+- ✅ Valdyti naudotojų duomenis:
+  - Redaguoti naudotojo vardą, pavardę, el. pašto adresą
+
+---
+
+## 📁 Projekto struktūra
+
+### Backend
+
+- **Controllers:**
+  - `HomeController` - Pagrindinis puslapis
+  - `ClientController` - Kliento posistemis
+  - `EmployeeController` - Darbuotojo posistemis
+  - `Admin\AdminController` - Administratoriaus pagrindinis puslapis
+  - `Admin\ConferenceController` - Konferencijų valdymas
+  - `Admin\UserController` - Naudotojų valdymas
+  - `Auth\LoginController` - Prisijungimas
+  - `Auth\RegisterController` - Registracija
+
+- **Models:**
+  - `User` - Naudotojo modelis su roles ir conferences relationships
+  - `Role` - Vaidmenų modelis
+  - `Conference` - Konferencijų modelis
+
+- **Middleware:**
+  - `RoleMiddleware` - Vaidmenų pagrindu autorizacija
+
+- **Services:**
+  - `ConferenceService` - Konferencijų logikos valdymas
+  - `UserService` - Naudotojų logikos valdymas
+
+### Frontend
+
+- **Views:**
+  - `layouts/app.blade.php` - Globalus layout su navbar
+  - `home.blade.php` - Pagrindinis puslapis
+  - `auth/login.blade.php` - Prisijungimo forma
+  - `auth/register.blade.php` - Registracijos forma
+  - `conferences/*` - Konferencijų views (index, create, edit, show, _form)
+  - `client/*` - Kliento posistemio views
+  - `employee/*` - Darbuotojo posistemio views
+  - `admin/*` - Administratoriaus views
+
+- **Assets:**
+  - Bootstrap 5 (CSS framework)
+  - Alpine.js (JavaScript framework)
+  - Kompiliuojama su Vite
+
+### Duomenų bazė
+
+- **Lentelės:**
+  - `roles` - Vaidmenys (admin, employee, client)
+  - `users` - Naudotojai
+  - `conferences` - Konferencijos
+  - `users_roles` - Many-to-Many: naudotojų vaidmenys
+  - `users_conferences` - Many-to-Many: naudotojų registracijos į konferencijas
+
+---
+
+## 🔐 Autentifikacija ir Autorizacija
+
+- **Registracija:** Nauji naudotojai automatiškai gauna kliento vaidmenį
+- **Prisijungimas:** Session-based autentifikacija
+- **Autorizacija:** Middleware ir Blade direktyvos pagal vaidmenis
+
+---
+
+## 📝 Papildoma informacija
+
+- **Kalba:** Lietuvių kalba (vertimų failai `lang/lt/`)
+- **Duomenų bazė:** SQLite (failas: `database/database.sqlite`)
+- **Kompiliacija:** Vite (Laravel Mix alternatyva)
+- **Kodavimo standartai:** PSR
+
+---
+
+## 🐛 Problemų sprendimas
+
+### Duomenų bazės problema
+
+Jei kyla problemų su duomenų baze, iš naujo sukurkite:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+### Assets neveikia
+
+Įsitikinkite, kad assets yra kompiliuoti:
+
+```bash
+npm run build
+```
+
+Arba development mode su hot reload:
+
+```bash
+npm run dev
+```
+
+### Sesijos problema
+
+Išvalykite cache:
+
+```bash
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+```
+
+---
+
+## 📄 Licencija
+
+Laravel framework yra open-source software su [MIT licencija](https://opensource.org/licenses/MIT).
