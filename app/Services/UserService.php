@@ -2,85 +2,47 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Collection;
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserService
 {
-    private Collection $users;
-    private int $nextId;
-
-    /**
-     * Initialize UserService with sample data
-     */
-    public function __construct()
-    {
-        $this->users = collect([
-            [
-                'id' => 1,
-                'first_name' => 'Jonas',
-                'last_name' => 'Jonaitis',
-                'email' => 'jonas@example.com',
-                'role' => 'client',
-            ],
-            [
-                'id' => 2,
-                'first_name' => 'Petras',
-                'last_name' => 'Petraitis',
-                'email' => 'petras@example.com',
-                'role' => 'client',
-            ],
-            [
-                'id' => 3,
-                'first_name' => 'Marija',
-                'last_name' => 'Marijaitė',
-                'email' => 'marija@example.com',
-                'role' => 'employee',
-            ],
-            [
-                'id' => 4,
-                'first_name' => 'Admin',
-                'last_name' => 'Administratorius',
-                'email' => 'admin@example.com',
-                'role' => 'admin',
-            ],
-        ]);
-
-        $this->nextId = 5;
-    }
-
     public function all(): Collection
     {
-        return $this->users;
+        return User::with('roles')->get();
     }
 
-    public function find(int $id): ?array
+    public function find(int $id): ?User
     {
-        return $this->users->firstWhere('id', $id);
+        return User::with('roles')->find($id);
     }
 
-    public function update(int $id, array $data): ?array
+    public function update(int $id, array $data): ?User
     {
-        $index = $this->users->search(function ($user) use ($id) {
-            return $user['id'] === $id;
-        });
+        $user = User::find($id);
 
-        if ($index === false) {
+        if (!$user) {
             return null;
         }
 
-        $user = $this->users[$index];
-        $user['first_name'] = $data['first_name'];
-        $user['last_name'] = $data['last_name'];
-        $user['email'] = $data['email'];
+        $user->update([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+        ]);
 
-        $this->users[$index] = $user;
-
-        return $user;
+        return $user->fresh();
     }
 
-    public function getByRole(string $role): Collection
+    public function getByRole(string $roleSlug): Collection
     {
-        return $this->users->where('role', $role);
+        $role = Role::where('slug', $roleSlug)->first();
+
+        if (!$role) {
+            return new Collection();
+        }
+
+        return $role->users()->get();
     }
 }
-
