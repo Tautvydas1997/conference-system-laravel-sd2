@@ -33,20 +33,20 @@
                     <tbody>
                         @foreach($users as $user)
                             <tr>
-                                <td>{{ $user['first_name'] }}</td>
-                                <td>{{ $user['last_name'] }}</td>
-                                <td>{{ $user['email'] }}</td>
+                                <td>{{ $user->first_name }}</td>
+                                <td>{{ $user->last_name }}</td>
+                                <td>{{ $user->email }}</td>
                                 <td>
-                                    @if($user['role'] === 'client')
+                                    @if($user->isClient())
                                         <span class="badge bg-primary">{{ __('users.client') }}</span>
-                                    @elseif($user['role'] === 'employee')
+                                    @elseif($user->isEmployee())
                                         <span class="badge bg-success">{{ __('users.employee') }}</span>
-                                    @else
+                                    @elseif($user->isAdmin())
                                         <span class="badge bg-warning">{{ __('users.admin') }}</span>
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.users.edit', $user['id']) }}" class="btn btn-sm btn-warning">
+                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-sm btn-warning">
                                         {{ __('users.edit_action') }}
                                     </a>
                                 </td>

@@ -31,18 +31,18 @@
                     <tbody>
                         @foreach($conferences as $conference)
                             <tr>
-                                <td>{{ $conference['name'] }}</td>
-                                <td>{{ $conference['date'] }}</td>
-                                <td>{{ $conference['time'] }}</td>
+                                <td>{{ $conference->name }}</td>
+                                <td>{{ $conference->date }}</td>
+                                <td>{{ $conference->time }}</td>
                                 <td>
-                                    @if($conference['status'] === 'planned')
+                                    @if($conference->status === 'planned')
                                         <span class="badge bg-success">{{ __('conferences.planned') }}</span>
                                     @else
                                         <span class="badge bg-secondary">{{ __('conferences.completed') }}</span>
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('employee.show', $conference['id']) }}" class="btn btn-sm btn-info">
+                                    <a href="{{ route('employee.show', $conference->id) }}" class="btn btn-sm btn-info">
                                         {{ __('conferences.view_action') }}
                                     </a>
                                 </td>

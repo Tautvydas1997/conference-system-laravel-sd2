@@ -22,26 +22,26 @@
                     <div class="col-md-6 mb-4">
                         <div class="card h-100">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $conference['name'] }}</h5>
-                                <p class="card-text">{{ \Illuminate\Support\Str::limit($conference['description'], 100) }}</p>
+                                <h5 class="card-title">{{ $conference->name }}</h5>
+                                <p class="card-text">{{ \Illuminate\Support\Str::limit($conference->description, 100) }}</p>
                                 <p class="card-text">
                                     <small class="text-muted">
-                                        {{ __('conferences.date') }}: {{ $conference['date'] }} {{ $conference['time'] }}
+                                        {{ __('conferences.date') }}: {{ $conference->date }} {{ $conference->time }}
                                     </small>
                                 </p>
                                 <p class="card-text">
                                     <small class="text-muted">
-                                        {{ __('conferences.address') }}: {{ $conference['address'] }}
+                                        {{ __('conferences.address') }}: {{ $conference->address }}
                                     </small>
                                 </p>
                             </div>
                             <div class="card-footer">
                                 <div class="btn-group w-100" role="group">
-                                    <a href="{{ route('client.show', $conference['id']) }}" class="btn btn-info">
+                                    <a href="{{ route('client.show', $conference->id) }}" class="btn btn-info">
                                         {{ __('conferences.view_action') }}
                                     </a>
-                                    @if($conference['status'] === 'planned')
-                                        <form action="{{ route('client.register', $conference['id']) }}" method="POST" class="d-inline">
+                                    @if($conference->status === 'planned')
+                                        <form action="{{ route('client.register', $conference->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             <button type="submit" class="btn btn-success">
                                                 {{ __('conferences.register') }}

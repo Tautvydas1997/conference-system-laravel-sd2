@@ -15,26 +15,26 @@
             <div class="card-body">
                 <dl class="row">
                     <dt class="col-sm-3">{{ __('conferences.name') }}:</dt>
-                    <dd class="col-sm-9">{{ $conference['name'] }}</dd>
+                    <dd class="col-sm-9">{{ $conference->name }}</dd>
 
                     <dt class="col-sm-3">{{ __('conferences.description') }}:</dt>
-                    <dd class="col-sm-9">{{ $conference['description'] }}</dd>
+                    <dd class="col-sm-9">{{ $conference->description }}</dd>
 
                     <dt class="col-sm-3">{{ __('conferences.lecturers') }}:</dt>
-                    <dd class="col-sm-9">{{ $conference['lecturers'] }}</dd>
+                    <dd class="col-sm-9">{{ $conference->lecturers }}</dd>
 
                     <dt class="col-sm-3">{{ __('conferences.date') }}:</dt>
-                    <dd class="col-sm-9">{{ $conference['date'] }}</dd>
+                    <dd class="col-sm-9">{{ $conference->date }}</dd>
 
                     <dt class="col-sm-3">{{ __('conferences.time') }}:</dt>
-                    <dd class="col-sm-9">{{ $conference['time'] }}</dd>
+                    <dd class="col-sm-9">{{ $conference->time }}</dd>
 
                     <dt class="col-sm-3">{{ __('conferences.address') }}:</dt>
-                    <dd class="col-sm-9">{{ $conference['address'] }}</dd>
+                    <dd class="col-sm-9">{{ $conference->address }}</dd>
 
                     <dt class="col-sm-3">{{ __('conferences.status') }}:</dt>
                     <dd class="col-sm-9">
-                        @if($conference['status'] === 'planned')
+                        @if($conference->status === 'planned')
                             <span class="badge bg-success">{{ __('conferences.planned') }}</span>
                         @else
                             <span class="badge bg-secondary">{{ __('conferences.completed') }}</span>
@@ -42,9 +42,9 @@
                     </dd>
                 </dl>
 
-                @if($conference['status'] === 'planned' && !$isRegistered)
+                @if($conference->status === 'planned' && !$isRegistered)
                     <div class="mt-4">
-                        <form action="{{ route('client.register', $conference['id']) }}" method="POST">
+                        <form action="{{ route('client.register', $conference->id) }}" method="POST">
                             @csrf
                             <button type="submit" class="btn btn-primary btn-lg">
                                 {{ __('conferences.register') }}
